@@ -2,8 +2,6 @@
 
 one:
   temp: 1.5
-  cooking_session: one
 
 two:
   temp: 1.5
-  cooking_session: two

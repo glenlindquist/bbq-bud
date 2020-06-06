@@ -1,7 +1,6 @@
 class TemperaturesChannel < ApplicationCable::Channel
   def subscribed
-    cooking_session = CookingSession.find(params[:cooking_session])
-    stream_fo cooking_session
+    stream_from "temperatures_channel"
   end
 
   def unsubscribed

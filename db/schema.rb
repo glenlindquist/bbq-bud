@@ -15,18 +15,10 @@ ActiveRecord::Schema.define(version: 2020_06_06_151055) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "cooking_sessions", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "temperatures", force: :cascade do |t|
     t.float "temp"
-    t.bigint "cooking_session_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["cooking_session_id"], name: "index_temperatures_on_cooking_session_id"
   end
 
-  add_foreign_key "temperatures", "cooking_sessions"
 end
