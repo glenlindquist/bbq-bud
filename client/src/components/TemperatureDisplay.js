@@ -1,22 +1,26 @@
 import React from 'react';
 import ActionCable from 'actioncable'
 import { API_ROOT, API_WS_ROOT } from '../constants';
-import TargetTempField from "./targetTempField"
+import TargetTempField from "./TargetTempField"
+import {Card, CardContent, Container, Typography} from '@material-ui/core/'
 import moment from 'moment'
 
-class TempeatureDisplay extends React.Component {
+class TemperatureDisplay extends React.Component {
 
   constructor(props) {
 		super(props);		
 		this.state = {
-      targetTemp: null,
+      highTemp: null,
+      lowTemp: null,
       temperature: {
         temp: null,
         created_at: null
       }
     };
     this.handleReceivedTemperature = this.handleReceivedTemperature.bind(this);
-    this.handleTargetTempChange = this.handleTargetTempChange.bind(this);
+    this.handleHighTempSet = this.handleHighTempSet.bind(this);
+    this.handleLowTempSet = this.handleLowTempSet.bind(this);
+
   }
   
   componentDidMount = () => {
@@ -29,39 +33,78 @@ class TempeatureDisplay extends React.Component {
   }
 
   handleReceivedTemperature = response => {
-    console.log("new temp");
     const {temperature} = response;
     this.setState({
       temperature: temperature
     });
+    if (temperature.temp < this.state.lowTemp) {
+      console.log("low temp warning");
+    }
+    if (temperature.temp > this.state.highTemp) {
+      console.log("high temp warning");
+    }
+
   };
 
-  handleTargetTempChange = value => {
-    console.log("target change");
+  handleHighTempSet = temp => {
+    this.setState({
+      highTemp: temp
+    })
+  }
+
+  handleLowTempSet = temp => {
+    this.setState({
+      lowTemp: temp
+    })
   }
 
   render = () => {
     const { temperature } = this.state;
     return (
-      <div className="temperatureDisplay">
-        <div className="temperatureReading">
-          <h2>
-          {!!this.state.temperature.temp ? this.state.temperature.temp : "N/A"}
-          </h2>
-          <p>
-            Last Updated:&nbsp;
+      <Container maxWidth="sm" className="temperatureDisplay">
+        <Card className="temperatureReading">
+          <CardContent>
+            <Typography variant="h3">
+            {!!this.state.temperature.temp ? this.state.temperature.temp : "N/A"}
+            </Typography>
+            <Typography variant="overline">
+              Last Updated:&nbsp;
+              {
+              !!this.state.temperature.created_at ?
+                (moment(this.state.temperature.created_at).format('MMMM Do YYYY, h:mm:ss a')) 
+              :
+                ("N/A")
+              }
+            </Typography>
+          </CardContent>
+        </Card>
+        <div>
+          <h4>High Temp:&nbsp;
             {
-            !!this.state.temperature.created_at ?
-              (moment(this.state.temperature.created_at).format('MMMM Do YYYY, h:mm:ss a')) 
+            !!this.state.highTemp ?
+              (this.state.highTemp)
             :
               ("N/A")
             }
-          </p>
+          </h4>
         </div>
-        <TargetTempField handleChange={this.handleTargetTempChange}></TargetTempField>
-      </div>
+        <div>
+          <h4>Low Temp:&nbsp;
+            {
+            !!this.state.lowTemp ?
+              (this.state.lowTemp)
+            :
+              ("N/A")
+            }
+          </h4>
+        </div>
+
+        <TargetTempField handleTargetTempSet={this.handleHighTempSet} label={"High Temp"}></TargetTempField>
+        <TargetTempField handleTargetTempSet={this.handleLowTempSet} label={"Low Temp"}></TargetTempField>
+
+      </Container>
     )
   }
 }
 
-export default TempeatureDisplay;
+export default TemperatureDisplay;

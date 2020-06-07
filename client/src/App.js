@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import TemperatureDisplay from './components/TemperatureDisplay';
+import {Container, Typography} from '@material-ui/core/'
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
+      <Container maxWidth="sm" className="App">
+        <Typography variant="h2" align="center">BBQ Bud</Typography>
         <TemperatureDisplay />
-      </div>
+      </Container>
     );
   }
 }
