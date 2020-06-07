@@ -9,7 +9,7 @@ class TempeatureDisplay extends React.Component {
   constructor(props) {
 		super(props);		
 		this.state = {
-      targetTemp = null,
+      targetTemp: null,
       temperature: {
         temp: null,
         created_at: null
