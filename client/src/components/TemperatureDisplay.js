@@ -18,8 +18,7 @@ class TempeatureDisplay extends React.Component {
   componentDidMount = () => {
     this.cable = ActionCable.createConsumer(`${API_WS_ROOT}`); //CREATES ACTION CABLE CONSUMER
     this.cable.subscriptions.create({
-      channel: `PicturesChannel`, 
-      id: this.props.paramsId
+      channel: `TemperaturesChannel`, 
       },{
       received: this.handleReceivedTemperature
     });
