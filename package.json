@@ -1,9 +1,10 @@
 {
   "name": "bbq-bud",
+  "license": "MIT",
   "scripts": {
-    "build": "cd client && yarn install && yarn build && cd ..",
+    "build": "yarn --cwd client install && yarn --cwd client build",
     "deploy": "cp -a client/build/. public/",
-    "postinstall": "yarn build && yarn deploy && echo 'Client built!'"
+    "heroku-postbuild": "yarn build && yarn deploy"
   },
   "engines": {
     "yarn": "1.22.4",
