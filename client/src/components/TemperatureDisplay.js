@@ -26,6 +26,7 @@ class TempeatureDisplay extends React.Component {
         <ActionCableConsumer
           channel={{ channel: 'TemperaturesChannel' }}
           onReceived={this.handleReceivedTemperature}
+          onDisconnected={console.log('disco :(')}
         />
         <div className="temperatureReading">
           <h2>
