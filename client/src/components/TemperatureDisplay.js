@@ -1,18 +1,22 @@
 import React from 'react';
 import ActionCable from 'actioncable'
 import { API_ROOT, API_WS_ROOT } from '../constants';
+import TargetTempField from "./targetTempField"
 import moment from 'moment'
 
 class TempeatureDisplay extends React.Component {
 
-  constructor() {
-		super();		
+  constructor(props) {
+		super(props);		
 		this.state = {
+      targetTemp = null,
       temperature: {
         temp: null,
         created_at: null
       }
-    };		
+    };
+    this.handleReceivedTemperature = this.handleReceivedTemperature.bind(this);
+    this.handleTargetTempChange = this.handleTargetTempChange.bind(this);
   }
   
   componentDidMount = () => {
@@ -24,7 +28,6 @@ class TempeatureDisplay extends React.Component {
     });
   }
 
-
   handleReceivedTemperature = response => {
     console.log("new temp");
     const {temperature} = response;
@@ -32,6 +35,10 @@ class TempeatureDisplay extends React.Component {
       temperature: temperature
     });
   };
+
+  handleTargetTempChange = value => {
+    console.log("target change");
+  }
 
   render = () => {
     const { temperature } = this.state;
@@ -51,6 +58,7 @@ class TempeatureDisplay extends React.Component {
             }
           </p>
         </div>
+        <TargetTempField handleChange={this.handleTargetTempChange}></TargetTempField>
       </div>
     )
   }
