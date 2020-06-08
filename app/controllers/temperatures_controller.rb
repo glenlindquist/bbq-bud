@@ -13,6 +13,6 @@ class TemperaturesController < ApplicationController
   private
   
   def temperature_params
-    params.require(:temperature).permit(:temp)
+    params.require(:temperature).permit(:temp, :probe_id)
   end
 end
