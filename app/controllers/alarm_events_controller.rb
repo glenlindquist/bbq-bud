@@ -9,7 +9,7 @@ class AlarmEventsController < ApplicationController
     # @todo: send alarm event to service?
     # aws sns -> txt message?
     # some method to check last alarm event sent?
-      
+    alarm_event = AlarmEventCreator.call(alarm_event_params: alarm_event_params)
     render alarm_event.to_json
     
   end
