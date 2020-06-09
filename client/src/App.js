@@ -5,7 +5,7 @@ import {Container, Typography} from '@material-ui/core/'
 class App extends Component {
   render() {
     return (
-      <Container maxWidth="sm" className="App">
+      <Container maxWidth="xl" className="App">
         <Typography variant="h2" align="center">BBQ Bud</Typography>
         <TemperatureDisplay />
       </Container>

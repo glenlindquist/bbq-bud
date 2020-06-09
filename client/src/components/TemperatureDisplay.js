@@ -1,7 +1,7 @@
 import React from 'react';
 import ActionCable from 'actioncable'
 import { API_WS_ROOT } from '../constants';
-import { Container } from '@material-ui/core/'
+import { Grid } from '@material-ui/core/'
 import ProbeCard from "./ProbeCard"
 
 class TemperatureDisplay extends React.Component {
@@ -28,25 +28,41 @@ class TemperatureDisplay extends React.Component {
   }
 
   handleReceivedTemperature = response => {
-    this.setState = (state) => {
-      const probes = this.state.probes.map((probeData) => {
-        if (probeData.probe_id === response.probe_id){
-          return response;
-        } else {
-          return probeData;
-        }
+    const newProbe = response.temperature;
+    console.log('new temp');
+    if (this.state.probes.some(probeData => {return probeData.probe_id === newProbe.probe_id})) {
+      // Existing Probe Data
+      this.setState((state) => {
+        const probes = state.probes.map((probeData) => {
+          if (probeData.probe_id === newProbe.probe_id){
+            return newProbe;
+          } else {
+            return probeData;
+          }
+        });
+        return { probes: probes };
       });
-      return {probes};
+    } else {
+      // New Probe Data
+      this.setState(state => {
+        const probes = [...state.probes, newProbe];
+        return { probes: probes };
+      })
     }
+
   };
 
   render = () => {
     return (
-      <Container maxWidth="sm" className="temperatureDisplay">
-        {this.state.probes.map((probeData)=>{
-          return(<ProbeCard key={probeData.probe_id} temp={probeData.temp} createdAt={probeData.created_at} probeId = {probeData.id}/>);
-        })}
-      </Container>
+      <Grid container justify="center" direction="row" spacing={2} className="temperatureDisplay">
+        { this.state.probes.map((probeData)=>{
+          return(
+            <Grid xs={4} item key={probeData.probe_id}>
+              <ProbeCard temp={probeData.temp} createdAt={probeData.created_at} probeId = {probeData.probe_id}/>
+            </Grid>
+          );
+        }) }
+      </Grid>
     )
   }
 }

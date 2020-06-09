@@ -1,6 +1,6 @@
 import React from 'react';
 import TargetTempField from "./TargetTempField"
-import {Card, CardContent, Typography} from '@material-ui/core/'
+import {CardHeader, Grid, Paper, Card, CardContent, Typography} from '@material-ui/core/'
 import moment from 'moment'
 
 class ProbeCard extends React.Component {
@@ -13,6 +13,10 @@ class ProbeCard extends React.Component {
     };
     this.handleHighTempSet = this.handleHighTempSet.bind(this);
     this.handleLowTempSet = this.handleLowTempSet.bind(this);
+  }
+
+  componentDidUpdate = () => {
+    // compare new temp to high/low stored in state
   }
   
   handleHighTempSet = temp => {
@@ -30,46 +34,60 @@ class ProbeCard extends React.Component {
   render = () => {
     return (
       <Card className="temperatureReading">
+        <CardHeader title={"Probe " + this.props.probeId} />
         <CardContent>
-          <Typography variant="h5">Probe {this.props.probeId}</Typography>
-          <Typography variant="h3">
-          {!!this.props.temperature.temp ? this.props.temperature.temp : "N/A"}
-          </Typography>
+          <Grid container spacing={2} alignContent="center" alignItems="center">
+            <Grid item xs={6}>
+              <Typography variant="h2" align="center">
+                {!!this.props.temp ? this.props.temp : "N/A"}
+              </Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Grid container direction="column">
+                <Grid item >
+                  <div>High Temp Alarm:&nbsp;
+                    {
+                    !!this.state.highTemp ?
+                      (this.state.highTemp)
+                    :
+                      ("N/A")
+                    }
+                  </div>
+                </Grid>
+                <Grid item >
+                  <div>Low Temp Alarm:&nbsp;
+                    {
+                    !!this.state.lowTemp ?
+                      (this.state.lowTemp)
+                    :
+                      ("N/A")
+                    }
+                  </div>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+          
           <Typography variant="overline">
             Last Updated:&nbsp;
             {
-            !!this.props.temperature.createdAt ?
-              (moment(this.props.temperature.createdAt).format('MMMM Do YYYY, h:mm:ss a')) 
+            !!this.props.createdAt ?
+              (moment(this.props.createdAt).format('MMMM Do YYYY, h:mm:ss a')) 
             :
               ("N/A")
             }
           </Typography>
-          <div>
-            <h4>High Temp:&nbsp;
-              {
-              !!this.state.highTemp ?
-                (this.state.highTemp)
-              :
-                ("N/A")
-              }
-            </h4>
-          </div>
-          <div>
-            <h4>Low Temp:&nbsp;
-              {
-              !!this.state.lowTemp ?
-                (this.state.lowTemp)
-              :
-                ("N/A")
-              }
-            </h4>
-          </div>
-
-          <TargetTempField handleTargetTempSet={this.handleHighTempSet} label={"High Temp"}></TargetTempField>
-          <TargetTempField handleTargetTempSet={this.handleLowTempSet} label={"Low Temp"}></TargetTempField>
+          <Grid container>
+            <Grid item xs={6}>
+              <TargetTempField handleTargetTempSet={this.handleHighTempSet} label={"High Temp"}></TargetTempField>
+            </Grid>
+            <Grid item xs={6}>
+              <TargetTempField handleTargetTempSet={this.handleLowTempSet} label={"Low Temp"}></TargetTempField>
+            </Grid>
+          </Grid>
         </CardContent>
       </Card>
-    )
+    );
   }
 }
 
