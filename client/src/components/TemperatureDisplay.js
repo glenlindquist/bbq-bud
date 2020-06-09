@@ -57,7 +57,7 @@ class TemperatureDisplay extends React.Component {
       <Grid container justify="center" direction="row" spacing={2} className="temperatureDisplay">
         { this.state.probes.map((probeData)=>{
           return(
-            <Grid xs={4} item key={probeData.probe_id}>
+            <Grid xs={10} sm={10} md={6} lg={4} xl={3} item key={probeData.probe_id}>
               <ProbeCard temp={probeData.temp} createdAt={probeData.created_at} probeId = {probeData.probe_id}/>
             </Grid>
           );

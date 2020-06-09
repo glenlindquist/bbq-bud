@@ -1,0 +1,2 @@
+class AlarmEvent < ApplicationRecord
+end

@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  temp: 
+  probe_id: 
+  alarm_type: MyString
+
+two:
+  temp: 
+  probe_id: 
+  alarm_type: MyString

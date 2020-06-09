@@ -13,10 +13,19 @@ class ProbeCard extends React.Component {
     };
     this.handleHighTempSet = this.handleHighTempSet.bind(this);
     this.handleLowTempSet = this.handleLowTempSet.bind(this);
+    this.checkAlarmTemps = this.checkAlarmTemps.bind(this);
   }
 
   componentDidUpdate = () => {
-    // compare new temp to high/low stored in state
+    this.checkAlarmTemps();
+  }
+
+  checkAlarmTemps = () => {
+    if (this.props.temp > this.state.highTemp) {
+      console.log('high alarm');
+    } else if (this.props.temp < this.state.lowTemp) {
+      console.log('low alarm');
+    }
   }
   
   handleHighTempSet = temp => {
@@ -79,10 +88,10 @@ class ProbeCard extends React.Component {
           </Typography>
           <Grid container>
             <Grid item xs={6}>
-              <TargetTempField handleTargetTempSet={this.handleHighTempSet} label={"High Temp"}></TargetTempField>
+              <TargetTempField handleTargetTempSet={this.handleLowTempSet} label={"Low Temp"}></TargetTempField>
             </Grid>
             <Grid item xs={6}>
-              <TargetTempField handleTargetTempSet={this.handleLowTempSet} label={"Low Temp"}></TargetTempField>
+              <TargetTempField handleTargetTempSet={this.handleHighTempSet} label={"High Temp"}></TargetTempField>
             </Grid>
           </Grid>
         </CardContent>
